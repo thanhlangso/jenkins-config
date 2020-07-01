@@ -1,0 +1,22 @@
+Install JAVA 8
+# yum install java-1.8.0-openjdk
+Install Jenkins
+# wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+# rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+# yum -y install jenkins
+Starting Jenkins
+# systemctl start jenkins
+Install Nginx web server
+# yum -y install nginx
+Install Cerbot tool
+# curl -sL https://dl.eff.org/certbot-auto | sudo tee /usr/local/bin/certbot-auto
+# chmod +x /usr/local/bin/certbot-auto
+# certbot-auto --version
+Once that is done, get Let’s Encrypt Certificate:
+# export DOMAIN="jenkins.example.com"
+# export ALERTS_EMAIL="webmaster@example.com"
+# systemctl stop nginx
+# /usr/local/bin/certbot-auto certonly --standalone -d $DOMAIN --preferred-challenges http --agree-tos -n -m $ALERTS_EMAIL --keep-until-expiring
+Configure Nginx
+# vim /etc/nginx/conf.d/jenkins.conf
+# systemctl restart nginx
